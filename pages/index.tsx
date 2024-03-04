@@ -40,14 +40,15 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Dall-E 2 AI Image Generator</title>
+        <title>Generate your AI identity</title>
       </Head>
       <div className="antialiased mx-auto px-4 py-20 h-screen bg-gray-100">
         <Toaster />
         <div className="flex flex-col items-center justify-center">
           <h1 className="text-5xl tracking-tighter pb-10 font-bold text-gray-800">
-            Dall-E 2 image generator
+          Generate your AI identity
           </h1>
+          <p>Describe yourself in as much detail as you can to the AI and it will generate an image for you:</p>
           <form
             className="flex w-full sm:w-auto flex-col sm:flex-row mb-10"
             onSubmit={submitForm}

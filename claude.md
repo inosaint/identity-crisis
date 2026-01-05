@@ -1,5 +1,7 @@
 # Identity Crisis - AI Mirror Portrait Generator
 
+> **Note for Claude**: Do not create any .md files unless explicitly requested by the user.
+
 ## Project Overview
 
 A mystical mirror interface that generates portrait images based on user descriptions. Inspired by the Pensieve from Harry Potter, the mirror appears hazy and dreamlike during generation, then reveals the AI-generated portrait.

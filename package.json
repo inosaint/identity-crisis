@@ -1,22 +1,17 @@
 {
   "name": "identity-crisis",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A mystical mirror interface that generates AI portrait images",
-  "main": "server/index.js",
+  "main": "server.js",
   "private": true,
   "scripts": {
-    "dev": "node server/index.js",
-    "start": "node server/index.js"
+    "dev": "node server.js",
+    "start": "node server.js"
   },
   "dependencies": {
-    "@upstash/qstash": "^0.1.7",
-    "@upstash/redis": "^1.16.0",
-    "cors": "^2.8.5",
-    "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "openai": "^3.1.0"
   },
-  "devDependencies": {},
   "engines": {
     "node": ">=16.0.0"
   }

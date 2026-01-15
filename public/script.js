@@ -55,21 +55,16 @@ function startPolling() {
     }
 
     try {
-      const res = await fetch(`/api/poll?id=${state.messageId}`);
+      const res = await fetch(`/api/status/${state.messageId}`);
+      const job = await res.json();
 
-      if (res.status === 200) {
-        const json = await res.json();
-
+      if (job.status === 'completed') {
         // Stop loading and polling
         state.loading = false;
         clearInterval(state.pollInterval);
 
-        // Parse the response and extract the base64 image
-        const data = typeof json === 'string' ? JSON.parse(json) : json;
-        const base64Image = data.data[0].b64_json;
-
         // Display the image
-        generatedImage.src = `data:image/png;base64,${base64Image}`;
+        generatedImage.src = `data:image/png;base64,${job.image}`;
         generatedImage.classList.remove('hidden');
 
         // Wait for image to load before showing it
@@ -81,6 +76,12 @@ function startPolling() {
 
         updateUI();
         showToast('Image generated successfully!');
+      } else if (job.status === 'failed') {
+        // Stop loading and polling
+        state.loading = false;
+        clearInterval(state.pollInterval);
+        updateUI();
+        showToast('Image generation failed. Please try again.');
       }
     } catch (error) {
       console.error('Polling error:', error);
@@ -118,14 +119,14 @@ async function handleSubmit(e) {
   showToast('Generating your image...', 5000);
 
   try {
-    const response = await fetch(`/api/image?prompt=${encodeURIComponent(prompt)}`);
+    const response = await fetch(`/api/generate?prompt=${encodeURIComponent(prompt)}`);
 
     if (!response.ok) {
       throw new Error('Failed to start image generation');
     }
 
     const json = await response.json();
-    state.messageId = json.id;
+    state.messageId = json.jobId;
 
     // Start polling for results
     startPolling();

@@ -1,15 +1,9 @@
 const express = require('express');
 const path = require('path');
-const { Configuration, OpenAIApi } = require('openai');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-
-// OpenAI configuration
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-const openai = new OpenAIApi(configuration);
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 // In-memory storage for jobs
 const jobs = new Map();
@@ -26,6 +20,10 @@ app.get('/api/generate', async (req, res) => {
     return res.status(400).json({ error: 'Prompt is required' });
   }
 
+  if (!GEMINI_API_KEY) {
+    return res.status(500).json({ error: 'GEMINI_API_KEY not configured' });
+  }
+
   // Create job ID
   const jobId = Date.now().toString();
 
@@ -37,18 +35,44 @@ app.get('/api/generate', async (req, res) => {
 
   // Start generation in background
   try {
-    const response = await openai.createImage({
-      prompt,
-      n: 1,
-      size: '1024x1024',
-      response_format: 'b64_json',
-    });
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent`,
+      {
+        method: 'POST',
+        headers: {
+          'x-goog-api-key': GEMINI_API_KEY,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contents: [{
+            parts: [
+              { text: prompt }
+            ]
+          }]
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Gemini API error: ${response.status} ${response.statusText}`);
+    }
+
+    const data = await response.json();
+
+    // Extract base64 image from response
+    const imagePart = data.candidates[0].content.parts.find(
+      part => part.inlineData && part.inlineData.mimeType.startsWith('image/')
+    );
+
+    if (!imagePart) {
+      throw new Error('No image found in response');
+    }
 
     // Update job with result
     jobs.set(jobId, {
       status: 'completed',
       prompt,
-      image: response.data.data[0].b64_json,
+      image: imagePart.inlineData.data,
     });
   } catch (error) {
     console.error('Generation error:', error);

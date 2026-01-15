@@ -27,79 +27,91 @@ A mystical mirror interface that generates portrait images based on user descrip
 ## Current Technical Stack
 
 ### Framework
-- **Next.js 13.0.0** - React metaframework
-- **React 18.2.0** - UI library
-- **TypeScript** - Type safety
+- **Express.js** - Minimal Node.js web server
+- **Vanilla HTML/CSS/JS** - Zero framework frontend
+- **No build step required**
 
 ### Image Generation
-- **Currently**: OpenAI DALL-E 2 API
-- **Planned**: Migrate to Midjourney API
+- **Google Gemini 2.5 Flash Image** (aka "Nano Banana")
+  - Endpoint: `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent`
+  - Fast, optimized for speed and efficiency
+  - Generates 1024px resolution images
+  - Portrait format support with aspect ratios
+  - API Key format: `AIzaSy...` (Google API key)
 
 ### Infrastructure
-- **@upstash/qstash** - Async job queue
-- **@upstash/redis** - Result caching
-- **sharp** - Image processing
+- **In-memory job storage** - No external database needed
+- **Native fetch** - No additional HTTP libraries
+- **Single server.js file** (~120 lines)
 
 ### UI/UX
-- **Tailwind CSS** - Styling (no shadcn/ui)
-- **react-hot-toast** - Notifications
-- Custom shimmer effect for loading state
-
-### Analytics
-- **Currently**: @vercel/analytics
-- **Planned**: Remove Vercel dependencies
+- **Pure CSS** - Custom styling, no frameworks
+- **Vanilla JS** - No React, no build tools
+- Custom shimmer/hazy effect for loading state
 
 ## Project Structure
 
 ```
-├── pages/
-│   ├── api/
-│   │   ├── image.ts       # Image generation endpoint
-│   │   ├── callback.ts    # Webhook from job queue
-│   │   └── poll.ts        # Poll for results
-│   ├── index.tsx          # Main mirror UI
-│   ├── _app.tsx           # App wrapper
-│   └── _document.tsx      # HTML document
-├── utils/
-│   ├── use-interval.tsx   # Polling hook
-│   ├── rate-limit.ts      # Rate limiting
-│   └── redis.ts           # Redis client
-├── styles/
-│   └── globals.css        # Tailwind directives
-└── public/                # Static assets
+identity-crisis/
+├── public/
+│   ├── index.html     # Main UI
+│   ├── styles.css     # All styling
+│   ├── script.js      # Vanilla JS
+│   └── favicon.ico
+├── server.js          # Single Express server (~120 lines)
+├── package.json       # Only express dependency
+├── .env.example
+├── claude.md          # This file
+└── todo.md
 ```
 
 ## Image Generation Flow
 
 1. User enters description in input field
-2. Prompt validation (content moderation)
-3. Mirror becomes hazy/muddy during generation
-4. API call to image generation service
-5. Polling for result (via Redis cache)
-6. Image fades into view through the haze
-7. User can like/dislike or regenerate
+2. Frontend sends prompt to `/api/generate`
+3. Server creates job ID, stores as "pending" in memory
+4. Server returns job ID immediately
+5. Mirror becomes hazy/muddy (shimmer effect)
+6. Server calls Gemini API in background
+7. Frontend polls `/api/status/:jobId` every second
+8. When complete, image fades into view through the haze
+9. User can like/dislike or regenerate
 
 ## Environment Variables
 
 ```env
-OPENAI_API_KEY=sk-...              # OpenAI API key (current)
-MIDJOURNEY_API_KEY=...             # Midjourney API key (planned)
-UPSTASH_REDIS_REST_URL=...         # Redis endpoint
-UPSTASH_REDIS_REST_TOKEN=...       # Redis auth token
-QSTASH_TOKEN=...                   # QStash API token
+PORT=3000                          # Server port (optional)
+GEMINI_API_KEY=AIzaSy...           # Google Gemini API key
 ```
 
-## Dependencies to Remove
+**How to get Gemini API Key:**
+1. Visit https://ai.google.dev/
+2. Sign up / Sign in with Google account
+3. Go to "Get API Key"
+4. Create new API key
+5. Copy the key (starts with `AIzaSy...`)
 
-### Vercel-specific
-- [x] `@vercel/analytics` in package.json
-- [x] Analytics import in `pages/_app.tsx`
-- [x] Hardcoded Vercel URL in `pages/api/image.ts`
-- [x] Vercel deployment references in `pages/_document.tsx`
+**Gemini Image Generation Details:**
+- Model: `gemini-2.5-flash-image` (aka "Nano Banana")
+- Fast generation (~5-10 seconds)
+- 1024x1024 default resolution
+- Supports aspect ratios: 1:1, 2:3, 3:2, 3:4, 4:3, 4:5, 5:4, 9:16, 16:9, 21:9
+- Returns base64 encoded PNG
+- Free tier available
 
-### Not Found (Already Clean)
-- ✓ No v0 references
-- ✓ No shadcn/ui references
+## Dependencies
+
+**Only 1 production dependency:**
+- `express` (^4.18.2) - Web server
+
+**All framework dependencies removed:**
+- ✅ Removed Next.js
+- ✅ Removed React
+- ✅ Removed OpenAI package
+- ✅ Removed Vercel analytics
+- ✅ Removed Tailwind CSS
+- ✅ Removed TypeScript compilation
+- ✅ Removed all build tools
 
 ## Planned Improvements
 
@@ -140,31 +152,27 @@ QSTASH_TOKEN=...                   # QStash API token
    - Ensure portrait-oriented human subjects
    - Rate limiting per user
 
-2. **API Migration**
-   - Switch from DALL-E 2 to Midjourney
-   - Update API endpoints
-   - Adjust prompt formatting for Midjourney
-   - Handle Midjourney-specific responses
+2. **Gemini Configuration**
+   - Add aspect ratio control (portrait 2:3 or 9:16)
+   - Implement prompt engineering for better portraits
+   - Add temperature/creativity controls
+   - Error handling improvements
 
 3. **Feedback System**
-   - Store like/dislike in Redis
+   - Store like/dislike in memory or simple file
    - Track per-generation metadata
-   - Analytics aggregation
-   - Export capabilities
-
-4. **Remove Vercel Dependencies**
-   - Replace @vercel/analytics with alternative (e.g., Plausible, Umami)
-   - Make URLs configurable via environment variables
-   - Remove Vercel-specific metadata
+   - Basic analytics aggregation
+   - Stats endpoint
 
 ## Development Commands
 
 ```bash
+npm install      # Install dependencies (only express)
 npm run dev      # Start development server
-npm run build    # Production build
-npm run start    # Start production server
-npm run lint     # Run ESLint
+npm start        # Start production server
 ```
+
+No build step required!
 
 ## Git Workflow
 
@@ -184,19 +192,28 @@ All development should happen on feature branches starting with `claude/`
 
 ## Technical Questions
 
-1. **Midjourney Integration**: Do you have API access and documentation?
-2. **Content Moderation**: Use external API (e.g., OpenAI Moderation) or custom rules?
-3. **Stats Storage**: Redis (temporary) or persistent database?
-4. **Analytics**: Preferred alternative to Vercel Analytics?
-5. **Hosting**: Where will this be deployed (if not Vercel)?
+1. **Gemini Configuration**: What aspect ratio for portraits? (2:3 or 9:16 recommended)
+2. **Content Moderation**: Simple keyword filter or external moderation API?
+3. **Stats Storage**: In-memory, JSON file, or add a database?
+4. **Deployment**: Railway, Render, or other platform?
+5. **Rate Limiting**: How many generations per user per hour?
 
-## Next Steps
+## Current Status
 
-1. Remove all Vercel dependencies
-2. Design and implement gilded frame UI
-3. Enhance hazy mirror effect
-4. Add content moderation layer
-5. Implement feedback system
-6. Create stats/about page
-7. Integrate Midjourney API
-8. Final testing and polish
+✅ **Completed:**
+- Ultra-minimal rewrite (single server.js file)
+- Removed all framework dependencies
+- Integrated Google Gemini API (Nano Banana)
+- In-memory job storage
+- Basic shimmer/hazy effect
+- Vanilla HTML/CSS/JS frontend
+
+🚧 **Next Steps:**
+1. Test Gemini API integration
+2. Design and implement gilded antique frame UI
+3. Enhance hazy "pensieve" mirror effect
+4. Add portrait aspect ratio (2:3 or 9:16)
+5. Implement content moderation
+6. Add like/dislike feedback buttons
+7. Create stats/about page
+8. Deploy to Railway or similar platform

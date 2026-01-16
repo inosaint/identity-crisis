@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Identity Crisis - Generate Your AI Identity</title>
+  <meta name="description" content="A mystical mirror that generates portrait images based on your description">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Toast notifications -->
+    <div id="toast" class="toast"></div>
+
+    <div class="content">
+      <h1 class="title">Generate your AI identity</h1>
+      <p class="subtitle">Describe yourself in as much detail as you can to the AI and it will generate an image for you:</p>
+
+      <!-- Form -->
+      <form id="promptForm" class="form">
+        <div class="input-group">
+          <input
+            id="promptInput"
+            type="text"
+            class="input"
+            placeholder="Describe yourself in detail..."
+            required
+          />
+          <select id="providerSelect" class="select">
+            <option value="openai">OpenAI (DALL-E 3)</option>
+            <option value="gemini">Nano Banana (Gemini)</option>
+          </select>
+        </div>
+        <button type="submit" class="button" id="generateBtn">
+          <svg id="spinner" class="spinner hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="spinner-circle" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="spinner-path" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <span id="buttonText">Generate</span>
+        </button>
+      </form>
+
+      <!-- Image container -->
+      <div class="image-wrapper">
+        <div class="image-container">
+          <img
+            id="generatedImage"
+            class="generated-image hidden"
+            alt="AI generated portrait"
+          />
+          <!-- Shimmer overlay -->
+          <div id="shimmerOverlay" class="shimmer-overlay hidden"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/script.js"></script>
+</body>
+</html>

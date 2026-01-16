@@ -58,6 +58,13 @@ body {
   gap: 1rem;
 }
 
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
 .input {
   width: 100%;
   padding: 0.75rem 1rem;
@@ -71,6 +78,25 @@ body {
 }
 
 .input:focus {
+  outline: none;
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  color: #374151;
+  background-color: white;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.select:focus {
   outline: none;
   border-color: #10b981;
   box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
@@ -241,10 +267,20 @@ body {
   .form {
     flex-direction: row;
     width: auto;
+    align-items: flex-start;
+  }
+
+  .input-group {
+    flex-direction: row;
+    min-width: 600px;
   }
 
   .input {
-    min-width: 600px;
+    flex: 1;
+  }
+
+  .select {
+    min-width: 200px;
   }
 
   .button {

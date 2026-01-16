@@ -18,13 +18,19 @@
 
       <!-- Form -->
       <form id="promptForm" class="form">
-        <input
-          id="promptInput"
-          type="text"
-          class="input"
-          placeholder="Prompt for DALL-E"
-          required
-        />
+        <div class="input-group">
+          <input
+            id="promptInput"
+            type="text"
+            class="input"
+            placeholder="Describe yourself in detail..."
+            required
+          />
+          <select id="providerSelect" class="select">
+            <option value="openai">OpenAI (DALL-E 3)</option>
+            <option value="gemini">Nano Banana (Gemini)</option>
+          </select>
+        </div>
         <button type="submit" class="button" id="generateBtn">
           <svg id="spinner" class="spinner hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <circle class="spinner-circle" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>

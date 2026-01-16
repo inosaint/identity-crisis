@@ -10,6 +10,7 @@ let state = {
 // DOM elements
 const form = document.getElementById('promptForm');
 const promptInput = document.getElementById('promptInput');
+const providerSelect = document.getElementById('providerSelect');
 const generateBtn = document.getElementById('generateBtn');
 const buttonText = document.getElementById('buttonText');
 const spinner = document.getElementById('spinner');
@@ -102,6 +103,8 @@ async function handleSubmit(e) {
   e.preventDefault();
 
   const prompt = promptInput.value.trim();
+  const provider = providerSelect.value;
+
   if (!prompt) {
     showToast('Please enter a prompt');
     return;
@@ -116,10 +119,10 @@ async function handleSubmit(e) {
   generatedImage.classList.add('hidden');
 
   updateUI();
-  showToast('Generating your image...', 5000);
+  showToast(`Generating your image with ${provider === 'gemini' ? 'Nano Banana' : 'OpenAI'}...`, 5000);
 
   try {
-    const response = await fetch(`/api/generate?prompt=${encodeURIComponent(prompt)}`);
+    const response = await fetch(`/api/generate?prompt=${encodeURIComponent(prompt)}&provider=${provider}`);
 
     if (!response.ok) {
       throw new Error('Failed to start image generation');

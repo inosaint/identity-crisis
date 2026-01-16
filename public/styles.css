@@ -174,22 +174,24 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  max-width: 400px;
-  height: 400px;
+  height: 100%;
   border-radius: 0.375rem;
   background: rgba(255, 255, 255, 0.05);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   overflow: hidden;
   transition: opacity 0.5s ease-in-out;
+  z-index: 10;
 }
 
 .shimmer-overlay.hidden {
   opacity: 0;
   pointer-events: none;
+  display: none;
 }
 
 .shimmer-overlay.show {
   opacity: 1;
+  display: block;
 }
 
 .shimmer-overlay.show::before {

@@ -134,9 +134,14 @@ GEMINI_API_KEY=AIzaSy...           # Google Gemini API key
 3. Regenerate once at `1024x1024` for production
 4. This can cut costs by **~75%**
 
-**Important Notes:**
-- ⚠️ Never expose API key in frontend JavaScript
-- ⚠️ Always call from server/API route (already implemented)
+**Important Security Notes:**
+- ⚠️ **Never expose API key in frontend JavaScript**
+- ⚠️ **Always call from server/API route** (already implemented)
+- ⚠️ **OpenAI API keys cannot be restricted to image models only**
+  - Keys are account-level, not model-scoped
+  - Our server-side allowlist pattern prevents misuse
+  - Frontend can never directly call text models
+  - This is the recommended production pattern
 - ⚠️ URLs are temporary if using `url` response format (we use base64)
 
 ### Gemini API Configuration
@@ -204,16 +209,23 @@ GEMINI_API_KEY=AIzaSy...           # Google Gemini API key
    - Project information
 
 ### Backend
+
+✅ **Already Implemented:**
+- Server-side API key protection (keys never exposed to frontend)
+- Model allowlist pattern (only image generation endpoints)
+- Async job processing with background generation
+- Base64 image response (no temporary URLs)
+
 1. **Content Moderation**
    - Implement prompt validation
    - Filter sexual content
    - Ensure portrait-oriented human subjects
-   - Rate limiting per user
+   - Rate limiting per user/IP
 
-2. **Gemini Configuration**
+2. **Image Configuration**
    - Add aspect ratio control (portrait 2:3 or 9:16)
    - Implement prompt engineering for better portraits
-   - Add temperature/creativity controls
+   - Add size selection (512x512 vs 1024x1024)
    - Error handling improvements
 
 3. **Feedback System**

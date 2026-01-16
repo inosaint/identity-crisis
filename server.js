@@ -81,9 +81,7 @@ async function generateWithOpenAI(jobId, prompt) {
         body: JSON.stringify({
           model: 'gpt-image-1-mini',
           prompt: prompt,
-          n: 1,
-          size: '1024x1024',
-          response_format: 'b64_json'
+          size: '512x512'
         }),
       }
     );
@@ -95,15 +93,21 @@ async function generateWithOpenAI(jobId, prompt) {
 
     const data = await response.json();
 
-    if (!data.data || !data.data[0] || !data.data[0].b64_json) {
+    if (!data.data || !data.data[0] || !data.data[0].url) {
       throw new Error('No image found in response');
     }
+
+    // Fetch the image from the temporary CDN URL and convert to base64
+    const imageUrl = data.data[0].url;
+    const imageResponse = await fetch(imageUrl);
+    const imageBuffer = await imageResponse.arrayBuffer();
+    const base64Image = Buffer.from(imageBuffer).toString('base64');
 
     // Update job with result
     jobs.set(jobId, {
       status: 'completed',
       prompt,
-      image: data.data[0].b64_json,
+      image: base64Image,
     });
   } catch (error) {
     console.error('OpenAI generation error:', error);

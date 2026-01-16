@@ -79,7 +79,7 @@ async function generateWithOpenAI(jobId, prompt) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model: 'gpt-image-1-mini',
+          model: 'dall-e-3',
           prompt: prompt,
           n: 1,
           size: '1024x1024',

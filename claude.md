@@ -31,13 +31,23 @@ A mystical mirror interface that generates portrait images based on user descrip
 - **Vanilla HTML/CSS/JS** - Zero framework frontend
 - **No build step required**
 
-### Image Generation
-- **Google Gemini 2.5 Flash Image** (aka "Nano Banana")
-  - Endpoint: `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent`
-  - Fast, optimized for speed and efficiency
-  - Generates 1024px resolution images
-  - Portrait format support with aspect ratios
-  - API Key format: `AIzaSy...` (Google API key)
+### Image Generation (Dual Provider Support)
+
+#### **OpenAI GPT Image** (Default)
+- **Models**:
+  - `gpt-image-1-mini` - Cheaper, faster, great for iteration (currently selected)
+  - `gpt-image-1` - Higher quality, better composition
+  - `dall-e-3`, `dall-e-2` - Also supported
+- **Endpoint**: `https://api.openai.com/v1/images/generations`
+- **API Key format**: `sk-...` (OpenAI API key)
+- **Response format**: Base64 JSON (image embedded in response)
+
+#### **Google Gemini 2.5 Flash Image** (aka "Nano Banana")
+- **Endpoint**: `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent`
+- **Fast, optimized for speed and efficiency**
+- **Generates 1024px resolution images**
+- **Portrait format support with aspect ratios**
+- **API Key format**: `AIzaSy...` (Google API key)
 
 ### Infrastructure
 - **In-memory job storage** - No external database needed
@@ -68,21 +78,68 @@ identity-crisis/
 ## Image Generation Flow
 
 1. User enters description in input field
-2. Frontend sends prompt to `/api/generate`
-3. Server creates job ID, stores as "pending" in memory
-4. Server returns job ID immediately
-5. Mirror becomes hazy/muddy (shimmer effect)
-6. Server calls Gemini API in background
-7. Frontend polls `/api/status/:jobId` every second
-8. When complete, image fades into view through the haze
-9. User can like/dislike or regenerate
+2. User selects AI provider (OpenAI or Gemini)
+3. Frontend sends prompt + provider to `/api/generate`
+4. Server creates job ID, stores as "pending" in memory
+5. Server returns job ID immediately
+6. Mirror becomes hazy/muddy (shimmer overlay appears)
+7. Server calls selected provider API in background
+   - **OpenAI**: `gpt-image-1-mini` at 1024x1024
+   - **Gemini**: `gemini-2.5-flash-image` at 1024x1024
+8. Frontend polls `/api/status/:jobId` every second
+9. When complete, image fades into view through the haze
+10. User can like/dislike or regenerate
 
 ## Environment Variables
 
 ```env
 PORT=3000                          # Server port (optional)
+OPENAI_API_KEY=sk-...              # OpenAI API key (default provider)
 GEMINI_API_KEY=AIzaSy...           # Google Gemini API key
 ```
+
+### OpenAI API Configuration
+
+**How to get OpenAI API Key:**
+1. Visit https://platform.openai.com/api-keys
+2. Sign up / Sign in
+3. Create new API key
+4. Copy the key (starts with `sk-...`)
+
+**Model Selection:**
+- **`gpt-image-1-mini`** (Current default)
+  - ✅ Cheaper, faster
+  - ✅ Great for iteration
+  - ✅ Best for development
+- **`gpt-image-1`**
+  - Higher quality
+  - Better composition
+  - More expensive
+- Also supports: `dall-e-3`, `dall-e-2`, `gpt-image-1.5`
+
+**Size Options:**
+- `512x512` - Cheapest (~75% cost savings)
+- `1024x1024` - Best default (currently selected)
+- `1024x1792` or `1792x1024` - Portrait/poster format
+
+**Prompt Best Practices:**
+- Be **explicit but concise**
+- Include: `style`, `subject`, `composition`, `background`
+- Example: *"Clean, modern illustration, flat colors, soft shadows, portrait of a person, neutral background, daylight"*
+- OpenAI API is more literal than ChatGPT UI - be specific
+
+**Cost-Saving Strategy:**
+1. Iterate with `512x512` during development
+2. Lock the final prompt
+3. Regenerate once at `1024x1024` for production
+4. This can cut costs by **~75%**
+
+**Important Notes:**
+- ⚠️ Never expose API key in frontend JavaScript
+- ⚠️ Always call from server/API route (already implemented)
+- ⚠️ URLs are temporary if using `url` response format (we use base64)
+
+### Gemini API Configuration
 
 **How to get Gemini API Key:**
 1. Visit https://ai.google.dev/
@@ -101,17 +158,18 @@ GEMINI_API_KEY=AIzaSy...           # Google Gemini API key
 
 ## Dependencies
 
-**Only 1 production dependency:**
+**Only 2 minimal dependencies:**
 - `express` (^4.18.2) - Web server
+- `dotenv` (^16.0.3) - Environment variable loading
 
 **All framework dependencies removed:**
 - ✅ Removed Next.js
 - ✅ Removed React
-- ✅ Removed OpenAI package
 - ✅ Removed Vercel analytics
 - ✅ Removed Tailwind CSS
 - ✅ Removed TypeScript compilation
 - ✅ Removed all build tools
+- ✅ No OpenAI SDK (using native fetch instead)
 
 ## Planned Improvements
 
@@ -202,17 +260,21 @@ All development should happen on feature branches starting with `claude/`
 
 ✅ **Completed:**
 - Ultra-minimal rewrite (single server.js file)
-- Removed all framework dependencies
-- Integrated Google Gemini API (Nano Banana)
+- Removed all framework dependencies (only express + dotenv)
+- **Dual AI provider support:**
+  - ✅ OpenAI (gpt-image-1-mini) - Default
+  - ✅ Google Gemini (Nano Banana) - Alternative
+  - ✅ Provider switcher in UI
 - In-memory job storage
-- Basic shimmer/hazy effect
+- Shimmer overlay properly overlaps image during generation
 - Vanilla HTML/CSS/JS frontend
+- Async job polling with background generation
 
 🚧 **Next Steps:**
-1. Test Gemini API integration
+1. Test both OpenAI and Gemini API integrations
 2. Design and implement gilded antique frame UI
 3. Enhance hazy "pensieve" mirror effect
-4. Add portrait aspect ratio (2:3 or 9:16)
+4. Add portrait aspect ratio support (2:3 or 9:16)
 5. Implement content moderation
 6. Add like/dislike feedback buttons
 7. Create stats/about page

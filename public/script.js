@@ -148,4 +148,4 @@ window.addEventListener('beforeunload', () => {
 });
 
 // Initialize
-console.log('🪞 Identity Crisis - Ready to generate your AI identity!');
+console.log('🪞 Identity Crisis - Ready to find out how AI sees you?!');

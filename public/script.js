@@ -36,6 +36,10 @@ function updateLoadingText(text) {
   loadingText.innerHTML = text
     .split("")
     .map(letter => {
+      // Preserve spaces by using &nbsp; for space characters
+      if (letter === ' ') {
+        return `<span>&nbsp;</span>`;
+      }
       return `<span>${letter}</span>`;
     })
     .join("");
@@ -102,7 +106,6 @@ function startPolling() {
         };
 
         updateUI();
-        showToast('Image generated successfully!');
       } else if (job.status === 'failed') {
         // Stop loading and polling
         state.loading = false;

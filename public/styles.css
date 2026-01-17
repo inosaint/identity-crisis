@@ -216,7 +216,7 @@ body {
   display: none;
 }
 
-/* Shimmer overlay */
+/* Shimmer overlay with clouds */
 .shimmer-overlay {
   position: absolute;
   top: 0;
@@ -224,7 +224,7 @@ body {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, rgba(196, 181, 253, 0.4), rgba(88, 28, 135, 0.7) 70%);
+  background: radial-gradient(circle at 30% 30%, rgba(196, 181, 253, 0.3), rgba(88, 28, 135, 0.6) 70%);
   overflow: hidden;
   transition: opacity 0.5s ease-in-out;
   z-index: 10;
@@ -241,51 +241,55 @@ body {
   display: block;
 }
 
-.shimmer-overlay.show::before {
-  content: '';
+/* Cloud animations */
+.cloud {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    135deg,
-    transparent,
-    rgba(196, 181, 253, 0.6),
-    rgba(168, 85, 247, 0.4),
-    transparent
-  );
-  animation: shimmer 3s ease-in-out infinite;
-  transform: translateX(-100%) rotate(45deg);
+  width: 100%;
+  left: 0;
+  pointer-events: none;
 }
 
-.shimmer-overlay.show::after {
-  content: '';
-  position: absolute;
-  top: 10%;
-  left: 15%;
-  width: 40%;
-  height: 40%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent 60%);
-  border-radius: 50%;
+.cloud1 {
+  top: 15%;
+  height: 25%;
+  background: radial-gradient(ellipse at center, rgba(196, 181, 253, 0.7), rgba(196, 181, 253, 0.4) 40%, transparent 65%);
+  filter: blur(12px);
+  animation: animCloud 18s infinite linear;
+}
+
+.cloud2 {
+  top: 35%;
+  height: 30%;
+  background: radial-gradient(ellipse at center, rgba(168, 85, 247, 0.6), rgba(168, 85, 247, 0.3) 45%, transparent 70%);
+  filter: blur(18px);
+  animation: animCloud 35s infinite linear;
+  animation-delay: -8s;
+}
+
+.cloud3 {
+  top: 55%;
+  height: 28%;
+  background: radial-gradient(ellipse at center, rgba(139, 92, 246, 0.5), rgba(139, 92, 246, 0.25) 50%, transparent 75%);
+  filter: blur(15px);
+  animation: animCloud 50s infinite linear;
+  animation-delay: -20s;
+}
+
+.cloud4 {
+  top: 70%;
+  height: 22%;
+  background: radial-gradient(ellipse at center, rgba(196, 181, 253, 0.4), rgba(196, 181, 253, 0.2) 55%, transparent 80%);
   filter: blur(20px);
-  animation: pulse 4s ease-in-out infinite;
+  animation: animCloud 70s infinite linear;
+  animation-delay: -35s;
 }
 
-@keyframes shimmer {
-  0%, 100% {
-    transform: translateX(-100%) rotate(45deg);
+@keyframes animCloud {
+  from {
+    transform: translateX(-120%);
   }
-  50% {
-    transform: translateX(200%) rotate(45deg);
-  }
-}
-
-@keyframes pulse {
-  0%, 100% {
-    opacity: 0.4;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.8;
-    transform: scale(1.1);
+  to {
+    transform: translateX(320%);
   }
 }
 
@@ -327,12 +331,15 @@ body {
 @keyframes wavy {
   0% {
     top: 0px;
+    opacity: 0.5;
   }
   50% {
     top: -15px;
+    opacity: 1;
   }
   100% {
     top: 0px;
+    opacity: 0.5;
   }
 }
 

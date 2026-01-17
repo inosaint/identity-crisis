@@ -40,6 +40,10 @@ function updateLoadingText(text) {
       if (letter === ' ') {
         return `<span>&nbsp;</span>`;
       }
+      // Add line break
+      if (letter === '\n') {
+        return '<br>';
+      }
       return `<span>${letter}</span>`;
     })
     .join("");
@@ -61,7 +65,7 @@ function updateUI() {
     shimmerOverlay.classList.remove('hidden');
     loadingText.classList.remove('hidden');
     loadingText.classList.add('show');
-    updateLoadingText('Gazing into the crystal ball...');
+    updateLoadingText('Gazing into the\ncrystal ball...');
   } else {
     generateBtn.disabled = false;
     spinner.classList.add('hidden');

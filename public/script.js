@@ -16,6 +16,7 @@ const buttonText = document.getElementById('buttonText');
 const spinner = document.getElementById('spinner');
 const generatedImage = document.getElementById('generatedImage');
 const shimmerOverlay = document.getElementById('shimmerOverlay');
+const loadingText = document.getElementById('loadingText');
 const toast = document.getElementById('toast');
 
 // Toast notification
@@ -28,6 +29,24 @@ function showToast(message, duration = 3000) {
   }, duration);
 }
 
+// Update loading text with wavy animation
+function updateLoadingText(text) {
+  const delay = 200;
+
+  loadingText.innerHTML = text
+    .split("")
+    .map(letter => {
+      return `<span>${letter}</span>`;
+    })
+    .join("");
+
+  Array.from(loadingText.children).forEach((span, index) => {
+    setTimeout(() => {
+      span.classList.add("wavy");
+    }, index * 60 + delay);
+  });
+}
+
 // Update UI based on loading state
 function updateUI() {
   if (state.loading) {
@@ -36,10 +55,17 @@ function updateUI() {
     buttonText.textContent = '';
     shimmerOverlay.classList.add('show');
     shimmerOverlay.classList.remove('hidden');
+    loadingText.classList.remove('hidden');
+    loadingText.classList.add('show');
+    updateLoadingText('Gazing into the crystal ball...');
   } else {
     generateBtn.disabled = false;
     spinner.classList.add('hidden');
     buttonText.textContent = 'Generate';
+    loadingText.classList.remove('show');
+    setTimeout(() => {
+      loadingText.classList.add('hidden');
+    }, 300);
   }
 }
 
@@ -119,7 +145,6 @@ async function handleSubmit(e) {
   generatedImage.classList.add('hidden');
 
   updateUI();
-  showToast('Gazing into the crystal ball...', 5000);
 
   try {
     const response = await fetch(`/api/generate?prompt=${encodeURIComponent(prompt)}&provider=${provider}`);

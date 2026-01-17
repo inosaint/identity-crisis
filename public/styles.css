@@ -289,6 +289,53 @@ body {
   }
 }
 
+/* Loading text overlay */
+.loading-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+  font-family: 'Macondo', cursive;
+  font-size: 1.5rem;
+  color: #e9d5ff;
+  text-align: center;
+  text-shadow: 0 0 20px rgba(168, 85, 247, 0.8), 0 0 40px rgba(168, 85, 247, 0.4);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.loading-text.show {
+  opacity: 1;
+}
+
+.loading-text.hidden {
+  display: none;
+}
+
+.loading-text span {
+  display: inline-block;
+  position: relative;
+  top: 0;
+}
+
+.loading-text span.wavy {
+  animation: wavy 1.3s ease infinite;
+}
+
+@keyframes wavy {
+  0% {
+    top: 0px;
+  }
+  50% {
+    top: -15px;
+  }
+  100% {
+    top: 0px;
+  }
+}
+
 /* Toast notifications */
 .toast {
   position: fixed;
@@ -329,11 +376,26 @@ body {
     min-width: 3rem;
     padding: 0.625rem 1.25rem;
   }
+
+  .loading-text {
+    font-size: 1.75rem;
+  }
 }
 
 @media (min-width: 768px) {
   .image-container {
     max-width: 500px;
     height: 500px;
+  }
+
+  .loading-text {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .loading-text {
+    font-size: 1.1rem;
+    max-width: 90%;
   }
 }

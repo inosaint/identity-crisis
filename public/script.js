@@ -10,12 +10,13 @@ let state = {
 // DOM elements
 const form = document.getElementById('promptForm');
 const promptInput = document.getElementById('promptInput');
-const providerSelect = document.getElementById('providerSelect');
+// const providerSelect = document.getElementById('providerSelect');
 const generateBtn = document.getElementById('generateBtn');
 const buttonText = document.getElementById('buttonText');
 const spinner = document.getElementById('spinner');
 const generatedImage = document.getElementById('generatedImage');
 const shimmerOverlay = document.getElementById('shimmerOverlay');
+const loadingText = document.getElementById('loadingText');
 const toast = document.getElementById('toast');
 
 // Toast notification
@@ -28,6 +29,32 @@ function showToast(message, duration = 3000) {
   }, duration);
 }
 
+// Update loading text with wavy animation
+function updateLoadingText(text) {
+  const delay = 200;
+
+  loadingText.innerHTML = text
+    .split("")
+    .map(letter => {
+      // Preserve spaces by using &nbsp; for space characters
+      if (letter === ' ') {
+        return `<span>&nbsp;</span>`;
+      }
+      // Add line break
+      if (letter === '\n') {
+        return '<br>';
+      }
+      return `<span>${letter}</span>`;
+    })
+    .join("");
+
+  Array.from(loadingText.children).forEach((span, index) => {
+    setTimeout(() => {
+      span.classList.add("wavy");
+    }, index * 60 + delay);
+  });
+}
+
 // Update UI based on loading state
 function updateUI() {
   if (state.loading) {
@@ -36,10 +63,17 @@ function updateUI() {
     buttonText.textContent = '';
     shimmerOverlay.classList.add('show');
     shimmerOverlay.classList.remove('hidden');
+    loadingText.classList.remove('hidden');
+    loadingText.classList.add('show');
+    updateLoadingText('Gazing into the\ncrystal ball...');
   } else {
     generateBtn.disabled = false;
     spinner.classList.add('hidden');
     buttonText.textContent = 'Generate';
+    loadingText.classList.remove('show');
+    setTimeout(() => {
+      loadingText.classList.add('hidden');
+    }, 300);
   }
 }
 
@@ -76,7 +110,6 @@ function startPolling() {
         };
 
         updateUI();
-        showToast('Image generated successfully!');
       } else if (job.status === 'failed') {
         // Stop loading and polling
         state.loading = false;
@@ -103,7 +136,7 @@ async function handleSubmit(e) {
   e.preventDefault();
 
   const prompt = promptInput.value.trim();
-  const provider = providerSelect.value;
+  const provider = 'openai'; // Always use OpenAI
 
   if (!prompt) {
     showToast('Please enter a prompt');
@@ -119,7 +152,6 @@ async function handleSubmit(e) {
   generatedImage.classList.add('hidden');
 
   updateUI();
-  showToast(`Generating your image with ${provider === 'gemini' ? 'Nano Banana' : 'OpenAI'}...`, 5000);
 
   try {
     const response = await fetch(`/api/generate?prompt=${encodeURIComponent(prompt)}&provider=${provider}`);

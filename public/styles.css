@@ -1,3 +1,6 @@
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Macondo&display=swap');
+
 /* Reset and base styles */
 * {
   margin: 0;
@@ -35,11 +38,12 @@ body {
 
 /* Typography */
 .title {
+  font-family: 'Macondo', cursive;
   font-size: 3rem;
   font-weight: 700;
   letter-spacing: -0.05em;
   padding-bottom: 2.5rem;
-  color: #1f2937;
+  color: #e9d5ff;
   text-align: center;
 }
 

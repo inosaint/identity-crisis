@@ -92,17 +92,29 @@ async function generateWithOpenAI(jobId, prompt) {
     }
 
     const data = await response.json();
-    console.log('OpenAI Response:', JSON.stringify(data, null, 2));
 
-    if (!data.data || !data.data[0] || !data.data[0].url) {
+    if (!data.data || !data.data[0]) {
       throw new Error(`No image found in response. Got: ${JSON.stringify(data)}`);
     }
 
-    // Fetch the image from the temporary CDN URL and convert to base64
     const imageUrl = data.data[0].url;
-    const imageResponse = await fetch(imageUrl);
-    const imageBuffer = await imageResponse.arrayBuffer();
-    const base64Image = Buffer.from(imageBuffer).toString('base64');
+    const imageBase64 = data.data[0].b64_json;
+
+    if (!imageUrl && !imageBase64) {
+      throw new Error('Image missing in response - no URL or base64');
+    }
+
+    let base64Image;
+
+    if (imageBase64) {
+      // Already have base64
+      base64Image = imageBase64;
+    } else if (imageUrl) {
+      // Fetch from URL and convert to base64
+      const imageResponse = await fetch(imageUrl);
+      const imageBuffer = await imageResponse.arrayBuffer();
+      base64Image = Buffer.from(imageBuffer).toString('base64');
+    }
 
     // Update job with result
     jobs.set(jobId, {

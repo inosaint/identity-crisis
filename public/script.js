@@ -10,7 +10,7 @@ let state = {
 // DOM elements
 const form = document.getElementById('promptForm');
 const promptInput = document.getElementById('promptInput');
-const providerSelect = document.getElementById('providerSelect');
+// const providerSelect = document.getElementById('providerSelect');
 const generateBtn = document.getElementById('generateBtn');
 const buttonText = document.getElementById('buttonText');
 const spinner = document.getElementById('spinner');
@@ -103,7 +103,7 @@ async function handleSubmit(e) {
   e.preventDefault();
 
   const prompt = promptInput.value.trim();
-  const provider = providerSelect.value;
+  const provider = 'openai'; // Always use OpenAI
 
   if (!prompt) {
     showToast('Please enter a prompt');
@@ -119,7 +119,7 @@ async function handleSubmit(e) {
   generatedImage.classList.add('hidden');
 
   updateUI();
-  showToast(`Generating your image with ${provider === 'gemini' ? 'Nano Banana' : 'OpenAI'}...`, 5000);
+  showToast('Gazing into the crystal ball...', 5000);
 
   try {
     const response = await fetch(`/api/generate?prompt=${encodeURIComponent(prompt)}&provider=${provider}`);

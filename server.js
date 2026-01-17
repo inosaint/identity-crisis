@@ -4,7 +4,7 @@ const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+// const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 // In-memory storage for jobs
@@ -15,57 +15,57 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Generate image with Gemini
-async function generateWithGemini(jobId, prompt) {
-  try {
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent`,
-      {
-        method: 'POST',
-        headers: {
-          'x-goog-api-key': GEMINI_API_KEY,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          contents: [{
-            parts: [
-              { text: prompt }
-            ]
-          }]
-        }),
-      }
-    );
+// async function generateWithGemini(jobId, prompt) {
+//   try {
+//     const response = await fetch(
+//       `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent`,
+//       {
+//         method: 'POST',
+//         headers: {
+//           'x-goog-api-key': GEMINI_API_KEY,
+//           'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify({
+//           contents: [{
+//             parts: [
+//               { text: prompt }
+//             ]
+//           }]
+//         }),
+//       }
+//     );
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Gemini API error: ${response.status} ${response.statusText} - ${errorText}`);
-    }
+//     if (!response.ok) {
+//       const errorText = await response.text();
+//       throw new Error(`Gemini API error: ${response.status} ${response.statusText} - ${errorText}`);
+//     }
 
-    const data = await response.json();
+//     const data = await response.json();
 
-    // Extract base64 image from response
-    const imagePart = data.candidates[0].content.parts.find(
-      part => part.inlineData && part.inlineData.mimeType.startsWith('image/')
-    );
+//     // Extract base64 image from response
+//     const imagePart = data.candidates[0].content.parts.find(
+//       part => part.inlineData && part.inlineData.mimeType.startsWith('image/')
+//     );
 
-    if (!imagePart) {
-      throw new Error('No image found in response');
-    }
+//     if (!imagePart) {
+//       throw new Error('No image found in response');
+//     }
 
-    // Update job with result
-    jobs.set(jobId, {
-      status: 'completed',
-      prompt,
-      image: imagePart.inlineData.data,
-    });
-  } catch (error) {
-    console.error('Gemini generation error:', error);
-    jobs.set(jobId, {
-      status: 'failed',
-      prompt,
-      error: error.message,
-    });
-  }
-}
+//     // Update job with result
+//     jobs.set(jobId, {
+//       status: 'completed',
+//       prompt,
+//       image: imagePart.inlineData.data,
+//     });
+//   } catch (error) {
+//     console.error('Gemini generation error:', error);
+//     jobs.set(jobId, {
+//       status: 'failed',
+//       prompt,
+//       error: error.message,
+//     });
+//   }
+// }
 
 // Generate image with OpenAI
 async function generateWithOpenAI(jobId, prompt) {
@@ -140,12 +140,8 @@ app.get('/api/generate', async (req, res) => {
     return res.status(400).json({ error: 'Prompt is required' });
   }
 
-  // Validate provider and API key
-  if (provider === 'gemini' && !GEMINI_API_KEY) {
-    return res.status(500).json({ error: 'GEMINI_API_KEY not configured' });
-  }
-
-  if (provider === 'openai' && !OPENAI_API_KEY) {
+  // Validate API key
+  if (!OPENAI_API_KEY) {
     return res.status(500).json({ error: 'OPENAI_API_KEY not configured' });
   }
 
@@ -153,23 +149,26 @@ app.get('/api/generate', async (req, res) => {
   const jobId = Date.now().toString();
 
   // Store job as pending
-  jobs.set(jobId, { status: 'pending', prompt, provider });
+  jobs.set(jobId, { status: 'pending', prompt, provider: 'openai' });
 
   // Return job ID immediately
   res.json({ jobId });
 
-  // Start generation in background based on provider
-  if (provider === 'gemini') {
-    generateWithGemini(jobId, prompt);
-  } else if (provider === 'openai') {
-    generateWithOpenAI(jobId, prompt);
-  } else {
-    jobs.set(jobId, {
-      status: 'failed',
-      prompt,
-      error: `Unknown provider: ${provider}`,
-    });
-  }
+  // Start generation in background with OpenAI
+  generateWithOpenAI(jobId, prompt);
+
+  // Commented out Gemini support
+  // if (provider === 'gemini') {
+  //   generateWithGemini(jobId, prompt);
+  // } else if (provider === 'openai') {
+  //   generateWithOpenAI(jobId, prompt);
+  // } else {
+  //   jobs.set(jobId, {
+  //     status: 'failed',
+  //     prompt,
+  //     error: `Unknown provider: ${provider}`,
+  //   });
+  // }
 });
 
 // Poll for job status

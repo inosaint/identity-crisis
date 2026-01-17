@@ -92,9 +92,10 @@ async function generateWithOpenAI(jobId, prompt) {
     }
 
     const data = await response.json();
+    console.log('OpenAI Response:', JSON.stringify(data, null, 2));
 
     if (!data.data || !data.data[0] || !data.data[0].url) {
-      throw new Error('No image found in response');
+      throw new Error(`No image found in response. Got: ${JSON.stringify(data)}`);
     }
 
     // Fetch the image from the temporary CDN URL and convert to base64

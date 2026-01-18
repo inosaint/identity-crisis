@@ -157,7 +157,9 @@ async function handleSubmit(e) {
     const response = await fetch(`/api/generate?prompt=${encodeURIComponent(prompt)}&provider=${provider}`);
 
     if (!response.ok) {
-      throw new Error('Failed to start image generation');
+      const errorData = await response.json().catch(() => ({}));
+      const errorMessage = errorData.error || 'Failed to start image generation';
+      throw new Error(errorMessage);
     }
 
     const json = await response.json();
@@ -169,7 +171,7 @@ async function handleSubmit(e) {
     console.error('Submission error:', error);
     state.loading = false;
     updateUI();
-    showToast('Error generating image. Please try again.');
+    showToast(error.message || 'Error generating image. Please try again.');
     stopPolling();
   }
 }

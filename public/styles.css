@@ -194,26 +194,26 @@ body {
   box-sizing: border-box;
   background-color: rgba(140, 140, 140, 0.3);
   background-image:
-    url('/mirror.png'),
-    url('/mirror.png'),
-    url('/mirror.png'),
-    url('/mirror.png'),
-    url('/mirror.png'),
-    url('/mirror.png'),
-    url('/mirror.png'),
-    url('/mirror.png'),
-    url('/mirror.png');
+    url('/top-left.png'),
+    url('/border.png'),
+    url('/top-right.png'),
+    url('/border-v.png'),
+    url('/.png'),
+    url('/border-v.png'),
+    url('/bottom-left.png'),
+    url('/border.png'),
+    url('/bottom-right.png');
   background-repeat: no-repeat;
   background-size:
-    150px 150px,
-    calc(100% - 300px) 150px,
-    150px 150px,
-    150px calc(100% - 300px),
+    50px 50px,
+    calc(100% - 300px) 50px,
+    50px 50px,
+    50px calc(100% - 300px),
     calc(100% - 300px) calc(100% - 300px),
-    150px calc(100% - 300px),
-    150px 150px,
-    calc(100% - 300px) 150px,
-    150px 150px;
+    50px calc(100% - 300px),
+    50px 50px,
+    calc(100% - 300px) 50px,
+    50px 50px;
   background-position:
     top left,
     top center,

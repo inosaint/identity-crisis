@@ -81,8 +81,8 @@ body {
   transition: all 0.3s;
   font-family: inherit;
   resize: vertical;
-  min-height: 2.5rem;
-  height: 2.5rem;
+  min-height: 5rem;
+  height: 5rem;
   vertical-align: top;
 }
 
@@ -118,8 +118,8 @@ body {
 
 .button {
   position: absolute;
-  right: 0.25rem;
-  top: 50%;
+  right: 0.5rem;
+  top: 30%;
   transform: translateY(-50%);
   display: inline-flex;
   justify-content: center;
@@ -136,6 +136,7 @@ body {
   box-shadow: 0 4px 12px 0 rgba(168, 85, 247, 0.4);
   cursor: pointer;
   transition: all 0.2s;
+  margin:0.25rem;
 }
 
 .button:hover {

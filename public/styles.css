@@ -185,27 +185,16 @@ body {
   margin-bottom: 2rem;
 }
 
-.mirror-frame {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 440px;
-  height: auto;
-  pointer-events: none;
-  z-index: 100;
-  object-fit: contain;
-}
-
 .image-container {
   width: 100%;
   max-width: 400px;
   height: 500px;
-  border-radius: 12px;
   position: relative;
-  overflow: hidden;
   background: linear-gradient(135deg, rgba(140, 140, 140, 0.3), rgba(100, 100, 100, 0.5));
+  border: 80px solid transparent;
+  border-image: url('/mirror.png') 200 fill;
+  border-image-outset: 0;
+  box-sizing: border-box;
 }
 
 /* Mirror shimmer effect - always visible */
@@ -415,10 +404,6 @@ body {
     height: 560px;
   }
 
-  .mirror-frame {
-    max-width: 490px;
-  }
-
   .input {
     font-size: 1.125rem;
     padding: 1.125rem 5.5rem 1.125rem 1.5rem;
@@ -438,10 +423,6 @@ body {
   .image-container {
     max-width: 500px;
     height: 620px;
-  }
-
-  .mirror-frame {
-    max-width: 540px;
   }
 
   .loading-text {

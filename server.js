@@ -70,6 +70,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Generate image with OpenAI
 async function generateWithOpenAI(jobId, prompt) {
   try {
+    // Enhance prompt for portrait generation
+    const enhancedPrompt = `A detailed portrait photograph of ${prompt}`;
+
     const response = await fetch(
       'https://api.openai.com/v1/images/generations',
       {
@@ -80,7 +83,7 @@ async function generateWithOpenAI(jobId, prompt) {
         },
         body: JSON.stringify({
           model: 'gpt-image-1-mini',
-          prompt: prompt,
+          prompt: enhancedPrompt,
           size: '1024x1024'
         }),
       }

@@ -65,7 +65,7 @@ function updateUI() {
     shimmerOverlay.classList.remove('hidden');
     loadingText.classList.remove('hidden');
     loadingText.classList.add('show');
-    updateLoadingText('Gazing into the\nmirror...');
+    updateLoadingText('Gazing into the\nabyss...');
   } else {
     generateBtn.disabled = false;
     spinner.classList.add('hidden');

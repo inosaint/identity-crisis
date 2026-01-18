@@ -84,7 +84,7 @@ async function generateWithOpenAI(jobId, prompt) {
         body: JSON.stringify({
           model: 'gpt-image-1-mini',
           prompt: enhancedPrompt,
-          size: '1024x1792'
+          size: '1024x1536'
         }),
       }
     );
@@ -195,6 +195,12 @@ app.get('/health', (req, res) => {
 app.listen(PORT, () => {
   console.log(`🪞 Identity Crisis server running on http://localhost:${PORT}`);
   console.log(`📂 Serving static files from: ${path.join(__dirname, 'public')}`);
+  console.log(`🔑 OPENAI_API_KEY configured: ${OPENAI_API_KEY ? 'YES' : 'NO'}`);
+  if (OPENAI_API_KEY) {
+    console.log(`🔑 Key starts with: ${OPENAI_API_KEY.substring(0, 7)}...`);
+  } else {
+    console.error('❌ ERROR: OPENAI_API_KEY environment variable is not set!');
+  }
 });
 
 // Cleanup old jobs (every 10 minutes)

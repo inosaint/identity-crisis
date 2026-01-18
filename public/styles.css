@@ -203,16 +203,25 @@ body {
     url('/bottom-left.png'),
     url('/border.png'),
     url('/bottom-right.png');
-  background-repeat: no-repeat;
+  background-repeat:
+    no-repeat,
+    repeat-x,
+    no-repeat,
+    repeat-y,
+    no-repeat,
+    repeat-y,
+    no-repeat,
+    repeat-x,
+    no-repeat;
   background-size:
     50px 50px,
-    calc(100% - 300px) 50px,
     50px 50px,
-    50px calc(100% - 300px),
-    calc(100% - 300px) calc(100% - 300px),
-    50px calc(100% - 300px),
     50px 50px,
-    calc(100% - 300px) 50px,
+    50px 50px,
+    100% 100%,
+    50px 50px,
+    50px 50px,
+    50px 50px,
     50px 50px;
   background-position:
     top left,

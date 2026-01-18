@@ -1,6 +1,9 @@
 # Identity Crisis - AI Mirror Portrait Generator
 
-> **Note for Claude**: Do not create any .md files unless explicitly requested by the user.
+> **Note for Claude**:
+> - Do not create any .md files unless explicitly requested by the user.
+> - Keep responses brief and concise. Only provide detailed solutions, code blocks, or implementation examples when explicitly asked.
+> - Trust DALL-E's built-in content moderation for now.
 
 ## Project Overview
 

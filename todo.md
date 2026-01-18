@@ -61,16 +61,53 @@
 - [ ] Create CSS custom properties for theme colors
 - [ ] Ensure dark/light theme compatibility
 
-### Stats/About Page
-- [ ] Create `/stats` or `/about` route
-- [ ] Display like/dislike statistics
-- [ ] Show total generation count
-- [ ] Add popular prompt themes (word cloud?)
-- [ ] Include project information
+### Stats/About Page (Modal)
+- [ ] Create stats modal overlay (accessible via button)
+- [ ] Add Chart.js integration for visualizations
+- [ ] Design modal UI with charts:
+  - Gender distribution (pie chart)
+  - Age ranges (bar chart)
+  - Skin tones (doughnut chart)
+  - Ethnicities (horizontal bar)
+  - Art styles (bar chart)
+- [ ] Add total generation count display
+- [ ] Style modal to match antique theme
+- [ ] Note: Backend analytics implementation in Phase 3
 
 ---
 
 ## Phase 3: Backend Updates
+
+### Analytics & Data Collection
+- [ ] Set up SQLite database with Railway volume mount (`/data`)
+- [ ] Create database schema for generations
+  ```sql
+  CREATE TABLE generations (
+    id TEXT PRIMARY KEY,
+    prompt TEXT NOT NULL,
+    image BLOB,
+    provider TEXT,
+    gender TEXT,
+    age_range TEXT,
+    skin_tone TEXT,
+    ethnicity TEXT,
+    art_style TEXT,
+    mood TEXT,
+    dominant_colors TEXT,
+    created_at INTEGER,
+    analyzed_at INTEGER,
+    analysis_raw TEXT
+  );
+  ```
+- [ ] Implement GPT-4 Vision background analysis
+  - Analyze images after generation completes
+  - Extract demographics (gender, age, skin tone, ethnicity)
+  - Extract artistic attributes (style, mood, colors)
+  - Run independently of client connection
+- [ ] Create `/api/analytics` endpoint for aggregated data
+- [ ] Add Railway configuration (`railway.toml`) with volume mount
+- [ ] Handle database persistence across deployments
+- [ ] Add privacy considerations (anonymous analytics notice)
 
 ### Midjourney API Integration
 - [ ] Obtain Midjourney API access and documentation
@@ -191,18 +228,28 @@
 
 ## Current Status
 
-**Phase**: Phase 1 (Clean & Prepare)
-**Branch**: `claude/remove-vercel-deps-0YnPn`
-**Last Updated**: 2026-01-05
+**Phase**: Phase 2 (UI Transformation)
+**Branch**: `claude/portrait-mirror-golden-frame-KiM6V`
+**Last Updated**: 2026-01-17
+
+**Completed**:
+- ✓ Portrait mirror format (rectangular, 4:5 ratio)
+- ✓ Golden gilded frame with gradient border
+- ✓ Updated all text from "crystal ball" to "mirror"
+- ✓ Responsive sizing for portrait orientation
+
+**In Progress**:
+- Custom frame design options
+- Phase 2 UI enhancements
 
 **Blockers**:
 - Need Midjourney API access for Phase 3
-- Need gilded frame design asset for Phase 2
-- Need color scheme decisions for Phase 2
+- Need custom gilded frame SVG/PNG asset (if user wants to provide)
+- Need color scheme decisions for remaining Phase 2 work
 
 **Decisions Needed**:
-- Final color scheme (gold/silver, dark/light theme)
-- Font selection
-- Analytics solution (or remove entirely)
-- Stats storage (Redis vs. persistent database)
-- Deployment platform
+- Font selection (serif for antique feel)
+- Pensieve effect vs. current shimmer animation
+- Final color scheme refinements
+- Analytics: SQLite decided for Phase 3
+- Deployment: Railway confirmed

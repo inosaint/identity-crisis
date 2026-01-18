@@ -82,6 +82,7 @@ body {
   font-family: inherit;
   resize: vertical;
   min-height: 3.5rem;
+  vertical-align: top;
 }
 
 .input::placeholder {
@@ -117,8 +118,7 @@ body {
 .button {
   position: absolute;
   right: 0.375rem;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 0.5rem;
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -139,7 +139,7 @@ body {
 .button:hover {
   background: linear-gradient(135deg, #9333ea 0%, #6d28d9 100%);
   box-shadow: 0 6px 16px 0 rgba(168, 85, 247, 0.6);
-  transform: translateY(-50%) scale(1.02);
+  transform: scale(1.02);
 }
 
 .button:disabled {
@@ -447,6 +447,7 @@ body {
   }
 
   .button {
+    top: 0.625rem;
     min-width: 3rem;
     padding: 0.625rem 1.25rem;
   }

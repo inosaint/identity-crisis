@@ -219,24 +219,24 @@ body {
     no-repeat;
   background-size:
     50px 50px,
+    calc(100% - 100px) 50px,
     50px 50px,
-    50px 50px,
-    50px 50px,
+    50px calc(100% - 100px),
     100% 100%,
+    50px calc(100% - 100px),
     50px 50px,
-    50px 50px,
-    50px 50px,
+    calc(100% - 100px) 50px,
     50px 50px;
   background-position:
-    top left,
-    top center,
-    top right,
-    center left,
+    top 0 left 0,
+    top 0 left 50px,
+    top 0 right 0,
+    left 0 top 50px,
     center center,
-    center right,
-    bottom left,
-    bottom center,
-    bottom right;
+    right 0 top 50px,
+    bottom 0 left 0,
+    bottom 0 left 50px,
+    bottom 0 right 0;
 }
 
 /* Mirror shimmer effect - always visible */

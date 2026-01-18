@@ -84,7 +84,7 @@ async function generateWithOpenAI(jobId, prompt) {
         body: JSON.stringify({
           model: 'gpt-image-1-mini',
           prompt: enhancedPrompt,
-          size: '1024x1024'
+          size: '1024x1792'
         }),
       }
     );

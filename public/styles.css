@@ -192,6 +192,7 @@ body {
   position: relative;
   padding: 150px;
   box-sizing: border-box;
+  overflow: hidden;
   background-color: rgba(140, 140, 140, 0.3);
   box-shadow:
     0 20px 60px rgba(0, 0, 0, 0.5),
@@ -261,9 +262,6 @@ body {
 @keyframes shimmer {
   0% {
     left: -100%;
-  }
-  50% {
-    left: 100%;
   }
   100% {
     left: 100%;

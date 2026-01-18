@@ -190,11 +190,40 @@ body {
   max-width: 400px;
   height: 500px;
   position: relative;
-  background: linear-gradient(135deg, rgba(140, 140, 140, 0.3), rgba(100, 100, 100, 0.5));
-  border: 80px solid transparent;
-  border-image: url('/mirror.png') 200 fill;
-  border-image-outset: 0;
+  padding: 150px;
   box-sizing: border-box;
+  background-color: rgba(140, 140, 140, 0.3);
+  background-image:
+    url('/mirror.png'),
+    url('/mirror.png'),
+    url('/mirror.png'),
+    url('/mirror.png'),
+    url('/mirror.png'),
+    url('/mirror.png'),
+    url('/mirror.png'),
+    url('/mirror.png'),
+    url('/mirror.png');
+  background-repeat: no-repeat;
+  background-size:
+    150px 150px,
+    calc(100% - 300px) 150px,
+    150px 150px,
+    150px calc(100% - 300px),
+    calc(100% - 300px) calc(100% - 300px),
+    150px calc(100% - 300px),
+    150px 150px,
+    calc(100% - 300px) 150px,
+    150px 150px;
+  background-position:
+    top left,
+    top center,
+    top right,
+    center left,
+    center center,
+    center right,
+    bottom left,
+    bottom center,
+    bottom right;
 }
 
 /* Mirror shimmer effect - always visible */

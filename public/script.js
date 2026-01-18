@@ -120,7 +120,7 @@ function startPolling() {
     } catch (error) {
       console.error('Polling error:', error);
     }
-  }, 1000); // Poll every second
+  }, 500); // Poll every 500ms
 }
 
 // Stop polling

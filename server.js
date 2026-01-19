@@ -71,7 +71,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 async function generateWithOpenAI(jobId, prompt) {
   try {
     // Enhance prompt for portrait generation
-    const enhancedPrompt = `A detailed portrait photograph of ${prompt}`;
+    const enhancedPrompt = `Portrait of ${prompt}`;
 
     const response = await fetch(
       'https://api.openai.com/v1/images/generations',
@@ -82,9 +82,9 @@ async function generateWithOpenAI(jobId, prompt) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model: 'gpt-image-1-mini',
+          model: 'dall-e-2',
           prompt: enhancedPrompt,
-          size: '1024x1536'
+          size: '1024x1024'
         }),
       }
     );

@@ -65,7 +65,7 @@ function updateUI() {
     shimmerOverlay.classList.remove('hidden');
     loadingText.classList.remove('hidden');
     loadingText.classList.add('show');
-    updateLoadingText('Gazing into the\nmirror...');
+    updateLoadingText('Gazing into the\nabyss...');
   } else {
     generateBtn.disabled = false;
     spinner.classList.add('hidden');
@@ -120,7 +120,7 @@ function startPolling() {
     } catch (error) {
       console.error('Polling error:', error);
     }
-  }, 1000); // Poll every second
+  }, 500); // Poll every 500ms
 }
 
 // Stop polling

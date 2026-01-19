@@ -204,40 +204,40 @@ body {
     inset 0 0 40px rgba(0, 0, 0, 0.2);
   background-image:
     url('/top-left.png'),
-    url('/border.png'),
     url('/top-right.png'),
-    url('/border-v.png'),
-    url('/border-v.png'),
     url('/bottom-left.png'),
+    url('/bottom-right.png'),
     url('/border.png'),
-    url('/bottom-right.png');
+    url('/border.png'),
+    url('/border-v.png'),
+    url('/border-v.png');
   background-repeat:
     no-repeat,
-    repeat-x,
     no-repeat,
-    repeat-y,
-    repeat-y,
+    no-repeat,
     no-repeat,
     repeat-x,
-    no-repeat;
+    repeat-x,
+    repeat-y,
+    repeat-y;
   background-size:
     25px 25px,
-    auto 25px,
     25px 25px,
-    25px auto,
-    25px auto,
+    25px 25px,
     25px 25px,
     auto 25px,
-    25px 25px;
+    auto 25px,
+    25px auto,
+    25px auto;
   background-position:
     0 0,
-    25px 0,
     100% 0,
-    0 25px,
-    100% 25px,
     0 100%,
+    100% 100%,
+    25px 0,
     25px 100%,
-    100% 100%;
+    0 25px,
+    100% 25px;
 }
 
 /* Mirror shimmer effect - always visible */

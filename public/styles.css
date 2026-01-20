@@ -97,6 +97,11 @@ body {
   background: rgba(88, 28, 135, 0.4);
 }
 
+.input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 /* .select {
   width: 100%;
   padding: 0.75rem 1rem;
@@ -240,7 +245,7 @@ body {
     100% 25px;
 }
 
-/* Mirror shimmer effect - always visible */
+/* Mirror shimmer effect */
 .image-container::after {
   content: '';
   position: absolute;
@@ -257,6 +262,12 @@ body {
   pointer-events: none;
   z-index: 5;
   animation: shimmer 8s infinite;
+}
+
+/* Stop shimmer animation when image is loaded */
+.image-container.image-loaded::after {
+  animation: none;
+  display: none;
 }
 
 @keyframes shimmer {
@@ -284,6 +295,66 @@ body {
 
 .generated-image.hidden {
   display: none;
+}
+
+/* Rating section */
+.rating-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  pointer-events: none;
+}
+
+.rating-container.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.rating-container.hidden {
+  display: none;
+}
+
+.rating-text {
+  font-size: 0.875rem;
+  color: rgba(233, 213, 255, 0.8);
+}
+
+.rating-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.rating-btn {
+  background: rgba(88, 28, 135, 0.3);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rating-btn:hover {
+  background: rgba(88, 28, 135, 0.5);
+  border-color: rgba(168, 85, 247, 0.6);
+  transform: scale(1.1);
+}
+
+.rating-btn.selected {
+  background: rgba(168, 85, 247, 0.4);
+  border-color: rgba(168, 85, 247, 0.8);
+}
+
+.rating-btn svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: #e9d5ff;
 }
 
 /* Shimmer overlay with clouds */

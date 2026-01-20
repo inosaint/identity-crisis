@@ -21,7 +21,7 @@
 
       <!-- Image container -->
       <div class="image-wrapper">
-        <div class="image-container">
+        <div class="image-container" id="imageContainer">
           <img
             id="generatedImage"
             class="generated-image hidden"
@@ -36,6 +36,23 @@
           </div>
           <!-- Loading text overlay -->
           <div id="loadingText" class="loading-text hidden"></div>
+        </div>
+      </div>
+
+      <!-- Rating section -->
+      <div id="ratingContainer" class="rating-container hidden">
+        <span class="rating-text">Rate the accuracy:</span>
+        <div class="rating-buttons">
+          <button id="thumbsUpBtn" class="rating-btn" aria-label="Thumbs up">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M14,9V5a3,3,0,0,0-3-3h0a2,2,0,0,0-2,2v6H4a2,2,0,0,0-2,2v8a2,2,0,0,0,2,2H17.93a3,3,0,0,0,2.86-2.09l2-6.18A3,3,0,0,0,20,10H14Z"/>
+            </svg>
+          </button>
+          <button id="thumbsDownBtn" class="rating-btn" aria-label="Thumbs down">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M10,15v4a3,3,0,0,0,3,3h0a2,2,0,0,0,2-2V14h5a2,2,0,0,0,2-2V4a2,2,0,0,0-2-2H6.07A3,3,0,0,0,3.21,4.09l-2,6.18A3,3,0,0,0,4,14H10Z"/>
+            </svg>
+          </button>
         </div>
       </div>
 

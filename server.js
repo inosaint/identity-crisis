@@ -186,6 +186,30 @@ app.get('/api/status/:jobId', (req, res) => {
   res.json(job);
 });
 
+// Rate image accuracy
+app.post('/api/rate', (req, res) => {
+  const { jobId, rating } = req.body;
+
+  if (!jobId || !rating) {
+    return res.status(400).json({ error: 'jobId and rating are required' });
+  }
+
+  const job = jobs.get(jobId);
+
+  if (!job) {
+    return res.status(404).json({ error: 'Job not found' });
+  }
+
+  // Add rating to job
+  job.rating = rating;
+  job.ratedAt = new Date().toISOString();
+  jobs.set(jobId, job);
+
+  console.log(`📊 Rating received for job ${jobId}: ${rating}`);
+
+  res.json({ success: true });
+});
+
 // Health check
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', jobs: jobs.size });

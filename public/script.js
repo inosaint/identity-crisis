@@ -184,5 +184,40 @@ window.addEventListener('beforeunload', () => {
   stopPolling();
 });
 
+// Modal functionality
+const conceptButton = document.getElementById('conceptButton');
+const modalOverlay = document.getElementById('modalOverlay');
+const modalClose = document.getElementById('modalClose');
+
+// Open modal
+function openModal() {
+  modalOverlay.classList.add('show');
+  document.body.style.overflow = 'hidden'; // Prevent background scrolling
+}
+
+// Close modal
+function closeModal() {
+  modalOverlay.classList.remove('show');
+  document.body.style.overflow = ''; // Restore scrolling
+}
+
+// Event listeners for modal
+conceptButton.addEventListener('click', openModal);
+modalClose.addEventListener('click', closeModal);
+
+// Close modal when clicking outside the content
+modalOverlay.addEventListener('click', (e) => {
+  if (e.target === modalOverlay) {
+    closeModal();
+  }
+});
+
+// Close modal with Escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && modalOverlay.classList.contains('show')) {
+    closeModal();
+  }
+});
+
 // Initialize
 console.log('🪞 Identity Crisis - Ready to find out how AI sees you?!');

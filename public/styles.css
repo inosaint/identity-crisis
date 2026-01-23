@@ -499,7 +499,7 @@ body {
 /* Concept Note Button */
 .concept-button {
   display: block;
-  margin: 0.75rem auto 0;
+  margin: 2rem auto 0;
   padding: 0.25rem 0.75rem;
   font-size: 0.75rem;
   font-weight: 500;
@@ -668,7 +668,7 @@ body {
   .concept-button {
     font-size: 0.7rem;
     padding: 0.2rem 0.6rem;
-    margin-top: 0.5rem;
+    margin-top: 1.5rem;
   }
 
   .modal-content {

@@ -25,4 +25,7 @@ AI wasn't stealing any jobs here. It was supplementing our efforts and helping u
 
 Slowly the real world started filling up with more and more AI images. Neither Gods nor Politicians were spared. Whatsapp forwards breached new levels of mis-information. But the average person was still unaware of this technology shift. AI was getting good. But I wondered how would people feel about what it knows about us. Would you feel represented in this new Age or have you been left out as the AI juggernaut pushes ahead?
 
-This project attempts to show you what the LLM knows about you and tracks what do you feel about it. We want to collect anonymized data about the images generated and visualize the relationships between the users and the generated images.
+
+--
+
+Today the AI's response is based on it's training data. We get out of it what we've put in. Like a mystical Magic Mirror that can show you a reflection of what you've fed into it. The Mirror AI project attempts to show you what the LLM knows about you and tracks what do you feel about it. We want to collect anonymized data about the images generated and visualize the relationships between the users and the generated images.
